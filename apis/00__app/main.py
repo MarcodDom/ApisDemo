@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,HTTPException
 
 app = FastAPI()
 
@@ -6,14 +6,17 @@ app = FastAPI()
 def read_root():
     return {"Hello": "Word"}
 
-@app.get("/clientes")
-def get_clientes():
+@app.get("/clientes/{client}")
+def get_clientes(client:str):
     data = [
-        {
-            "nombre":"marco"
-        },
-        {
-            "nombre":"jhon"
-        }
+        {"nombre":"marco"},
+        {"nombre":"jhon"}
     ]
-    return data
+    
+    for a in data:
+        if a["nombre"] == client:
+            return a
+    raise HTTPException(
+        status_code = 404,
+        detail = "No se encontro"
+    )
