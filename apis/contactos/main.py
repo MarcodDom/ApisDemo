@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,HTTPException
 import sqlite3
 
 app = FastAPI()
@@ -47,4 +47,9 @@ async def get_buscar_contactos(id:int):
     c = connection.cursor()
     c.execute(f"select * from contactos where id_contacto = {id}")
     rows = c.fetchone()
-    return rows
+    if not rows:
+        raise HTTPException(
+            status_code = 404,
+            detail = "No se encontrop el archivo"
+        )
+    return dict(rows)

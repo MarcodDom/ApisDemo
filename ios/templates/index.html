@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensores con IoT</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="iot-container">
+        <div class="background-effects">
+            <div class="blur-effect-1"></div>
+            <div class="blur-effect-2"></div>
+            <div class="blur-effect-3"></div>
+        </div>
+
+        <div class="grid-pattern"></div>
+
+        <div class="main-content">
+
+            <div class="header">
+                <div class="icon-container">
+                    <div class="icon-glow"></div>
+                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>
+                    </svg>
+                </div>
+                <h3 class="main-title">Sensores con IoT</h3>
+                <p class="subtitle">MONITOREO EN TIEMPO REAL</p>
+            </div>
+
+            <div class="sensors-grid">
+
+                <div class="sensor-card-wrapper">
+                    <div class="sensor-card-glow temperature"></div>
+                    
+                    <div class="sensor-card">
+                        <div class="sensor-card-inner-glow"></div>
+                        
+                        <div class="sensor-card-content">
+                            <div class="sensor-icon-wrapper">
+                                <div class="sensor-icon-glow temperature"></div>
+                                <div class="sensor-icon temperature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <h2 class="sensor-title">Temperatura</h2>
+
+                            <div class="sensor-value-container">
+                                <span id="temp" class="sensor-value">--</span>
+                                <span class="sensor-unit">°C</span>
+                            </div>
+
+                            <div class="sensor-bar">
+                                <div class="sensor-bar-fill temperature" style="width: 100%;"></div>
+                            </div>
+
+                            <div class="decorative-dots">
+                                <div class="decorative-dot"></div>
+                                <div class="decorative-dot"></div>
+                                <div class="decorative-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sensor-card-wrapper">
+                    <div class="sensor-card-glow humidity"></div>
+                    
+                    <div class="sensor-card">
+                        <div class="sensor-card-inner-glow"></div>
+                        
+                        <div class="sensor-card-content">
+                            <div class="sensor-icon-wrapper">
+                                <div class="sensor-icon-glow humidity"></div>
+                                <div class="sensor-icon humidity">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <h2 class="sensor-title">Humedad</h2>
+
+                            <div class="sensor-value-container">
+                                <span id="hum" class="sensor-value">--</span>
+                                <span class="sensor-unit">%</span>
+                            </div>
+
+                            <div class="sensor-bar">
+                                <div class="sensor-bar-fill humidity" style="width: 100%;"></div>
+                            </div>
+
+                            <div class="decorative-dots">
+                                <div class="decorative-dot"></div>
+                                <div class="decorative-dot"></div>
+                                <div class="decorative-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span class="status-text">Sistema conectado</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
