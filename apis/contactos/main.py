@@ -1,4 +1,5 @@
 from fastapi import FastAPI,HTTPException
+from fastapi.responses import JSONResponse
 import sqlite3
 
 app = FastAPI()
@@ -55,23 +56,17 @@ async def get_buscar_contactos(id:int):
 @app.get("/v2/contactos/{skip}/{limit}")
 def api_perfecta(skip:int,limit:int):
     
-    if skip > 0 and limit <0:
-        raise HTTPException(status_code = 422, detail = "ERROR")
+    if skip >= 0 and limit <0:
+        return JSONResponse(status_code = 422, content = {"ERROR":"El limite no debe de ser inferior a 0"})
     
-    elif skip < 0 and limit > 0:
-        raise HTTPException(status_code = 422, detail = "ERROR")
-    
-    elif skip == None and limit >= 0 or skip >0 and limit == None:
-        raise HTTPException(status_code = 422,detail = "Se requieren los parametros de entrada")
-    
-    elif not isinstance(skip, int) or not isinstance(limit, int):
-        raise HTTPException(status_code = 422,detail = "Los parametros solo debenmn de ser Numerows")
+    elif skip < 0 and limit >= 0:
+        return JSONResponse(status_code = 422, content = {"ERROR":"El salto no debe de ser inferior a 0"})
     
     
     connection = sqlite3.connect("agenda.db")
     connection.row_factory = sqlite3.Row
     c = connection.cursor()
-    c.execute(f"select * from contactos limit {limit} offset {skip}")
+    c.execute(f"select * from contactos")
     rows = c.fetchall()
     response = [dict(r)for r in rows]
     ordenar = response[skip: skip + limit]
