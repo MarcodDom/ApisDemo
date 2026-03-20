@@ -53,8 +53,17 @@ async def get_buscar_contactos(id:int):
         )
     return dict(rows)
 
-@app.get("/v2/contactos/{skip}/{limit}")
-def api_perfecta(skip:int,limit:int):
+@app.get("/v2/contactos")
+def api_sin_errores(skip:str | None = None,limit:str | None = None):
+
+    if skip is None or limit is None:
+            return JSONResponse(status_code=422, content = {"ERROR":"La entrada esta vacia"})
+    
+    try:
+        skip = int(skip)
+        limit = int(limit)
+    except:
+        return JSONResponse(status_code = 422, content = {"ERROR":"La entrada es un caracter"})
     
     if skip >= 0 and limit <0:
         return JSONResponse(status_code = 422, content = {"ERROR":"El limite no debe de ser inferior a 0"})
@@ -62,13 +71,17 @@ def api_perfecta(skip:int,limit:int):
     elif skip < 0 and limit >= 0:
         return JSONResponse(status_code = 422, content = {"ERROR":"El salto no debe de ser inferior a 0"})
     
+    elif skip == 0 and limit == 0:
+        return JSONResponse(status_code=200, content= {"ERROR":"La entrada esta vacia"})
+    
+    
+    
     
     connection = sqlite3.connect("agenda.db")
     connection.row_factory = sqlite3.Row
     c = connection.cursor()
-    c.execute(f"select * from contactos")
+    c.execute(f"select * from contactos LIMIT {limit} OFFSET {skip}")
     rows = c.fetchall()
     response = [dict(r)for r in rows]
-    ordenar = response[skip: skip + limit]
-    return ordenar
+    return response
 

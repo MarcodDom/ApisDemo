@@ -1,18 +1,14 @@
 import requests
 import pytest
-from fastapi.testclient import TestClient
-from main import app
 
 URL = "http://localhost:8000"
-client = TestClient(app)
-
-def test_contactos():
-    response = client.get("v1/contactos", params = {"skip": 0})
-    data = response.json()
-    assert response.request.url == "http://testserver/v1/contactos?skip=0"
-     
+   
 def test_1():
-    response = requests.get(f"{URL}/v2/contactos/0/10")
+    PARAMS = {
+        "skip": 0,
+        "limit": 10
+    }
+    response = requests.get(f"{URL}/v2/contactos", params=PARAMS)
     data = response.json()
     assert response.status_code == 200
     assert data == [
@@ -79,22 +75,34 @@ def test_1():
 ]
 
 def test_2():
-  response = requests.get(f"{URL}/v2/contactos/0/-10")
+  PARAMS = {
+        "skip": 0,
+        "limit": -10
+        }
+  response = requests.get(f"{URL}/v2/contactos", params = PARAMS)
   data = response.json()
   assert response.status_code == 422
   assert data == {"ERROR":"El limite no debe de ser inferior a 0"}
-    
+
 def test_3():
-  response = requests.get(f"{URL}/v2/contactos/-10/0")
+  PARAMS = {
+        "skip": -10,
+        "limit": 0 
+        }
+  response = requests.get(f"{URL}/v2/contactos", params = PARAMS)
   data = response.json()
   assert response.status_code == 422
   assert data == {"ERROR":"El salto no debe de ser inferior a 0"}
 
 def test_4():
-  response = requests.get(f"{URL}/v2/contactos/90/10")
-  data = response.json()
-  assert response.status_code == 200
-  assert data == [
+   PARAMS = {
+      "limit": 10,
+      "skip": 90
+   }
+   response = requests.get(f"{URL}/v2/contactos", params = PARAMS)
+   data = response.json()
+   assert response.status_code == 200
+   assert data == [
   {
     "id_contacto": 91,
     "nombre": "Noelia Bustos",
@@ -156,10 +164,63 @@ def test_4():
     "email": "tomas.alcantara@gmail.com"
   }
 ]
-
+   
 def test_5():
-   response = requests.get(f"{URL}/v2/contactos/0/0")
+   PARAMS = {
+      "skip": 0,
+      "limit": 0
+   }
+   response = requests.get(f"{URL}/v2/contactos", params=PARAMS)
    data = response.json()
    assert response.status_code == 200
-   assert data == []
+   assert data == {"ERROR":"La entrada esta vacia"}
 
+def test_6():
+   PARAMS = {
+      "skip": 0,
+      "limit": None
+   }
+   response = requests.get(f"{URL}/v2/contactos", params = PARAMS)
+   data = response.json()
+   assert response.status_code == 422
+   assert data == {"ERROR":"La entrada esta vacia"}
+
+def test_7():
+   PARAMS = {
+      "skip": None,
+      "limit": 10
+   }
+   response = requests.get(f"{URL}/v2/contactos", params = PARAMS)
+   data = response.json()
+   assert response.status_code == 422
+   assert data == {"ERROR":"La entrada esta vacia"}
+
+def test_8():
+   PARAMS = {
+      "skip": None,
+      "limit": None
+   }
+   response = requests.get(f"{URL}/v2/contactos", params = PARAMS)
+   data = response.json()
+   assert response.status_code == 422
+   assert data == {"ERROR":"La entrada esta vacia"}
+
+def test_9():
+   PARAMS = {
+      "skip": 0,
+      "limit": "x"
+   }
+   response = requests.get(f"{URL}/v2/contactos", params = PARAMS)
+   data = response.json()
+   assert response.status_code == 422
+   assert data == {"ERROR":"La entrada es un caracter"}
+
+def test_10():
+   PARAMS = {
+      "skip": "x",
+      "limit": 10
+   }
+   response = requests.get(f"{URL}/v2/contactos", params = PARAMS)
+   data = response.json()
+   assert response.status_code == 422
+   assert data == {"ERROR":"La entrada es un caracter"}
